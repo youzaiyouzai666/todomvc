@@ -3,7 +3,6 @@
 
     ['all','active','completed'].forEach(function(visibility){
         router.on(visibility, function(){
-            debugger;
             app.visibility = visibility;
         })
     });

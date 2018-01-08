@@ -21,22 +21,25 @@
     exports.app = new Vue({
         el        : '.todoapp',
         data      : {
-            todoList: [],
+            todoList: todoStorage.fetch(),
             newTodo : '',
             visibility: 'all'
         },
+        watch:{
+            todoList:{
+                deep: true,
+                handler: todoStorage.save
+            }
+        },
         directives: {
             'auto-focus': function (el, binding) {
-                if (!binding.value) {
-                    return;
+                if(binding.value){
+                    el.focus();
                 }
-                el.focus();
-
             }
         },
         computed  : {
             filteredTodos: function(){
-                debugger;
                 return filters[this.visibility](this.todoList);
             },
             //active 剩余数量
@@ -66,7 +69,6 @@
             removeTodo     : function (todo) {
                 var index = this.todoList.indexOf(todo);
                 this.todoList.splice(index, 1);
-                debugger;
             },
             editTodo       : function (todo) {
                 this.editingTodoOldValue = todo.label;
